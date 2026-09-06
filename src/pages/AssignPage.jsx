@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { IconArrowLeft, IconAlertTriangle, IconDeviceIpad } from "@tabler/icons-react";
+import { IconDeviceIpad } from "@tabler/icons-react";
 import PageShell from "../components/PageShell.jsx";
 import Keypad from "../components/Keypad.jsx";
 import StudentConfirmDialog from "../components/StudentConfirmDialog.jsx";
+import ErrorDialog from "../components/ErrorDialog.jsx";
 import { getStoredDevice, storeDevice } from "../lib/device.js";
 import { registerDevice, getStudent, assignColor, colorGroupLetter, ApiError } from "../lib/api.js";
 
@@ -30,7 +30,10 @@ function DeviceSetup({ onRegistered }) {
 
   return (
     <PageShell>
-      <form onSubmit={submit} className="w-full max-w-sm bg-white rounded-3xl shadow-sm border border-black/5 p-6 md:p-8">
+      <form
+        onSubmit={submit}
+        className="animate-fade-in-up w-full max-w-sm bg-white rounded-3xl shadow-sm border border-black/5 p-6 md:p-8"
+      >
         <div className="w-12 h-12 rounded-2xl bg-black/5 flex items-center justify-center mb-4">
           <IconDeviceIpad size={26} stroke={1.8} />
         </div>
@@ -42,15 +45,8 @@ function DeviceSetup({ onRegistered }) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="เช่น iPad โต๊ะ 1"
-          className="w-full h-14 rounded-2xl border border-black/10 px-4 text-lg font-semibold mb-4 outline-none focus:border-black/30"
+          className="w-full h-14 rounded-2xl border border-black/10 px-4 text-lg font-semibold mb-4 outline-none focus:border-black/30 transition-colors"
         />
-
-        {error && (
-          <div className="flex items-center gap-1.5 text-sm font-semibold mb-4" style={{ color: "var(--color-brand-red-dark)" }}>
-            <IconAlertTriangle size={16} />
-            {error}
-          </div>
-        )}
 
         <button
           type="submit"
@@ -61,6 +57,8 @@ function DeviceSetup({ onRegistered }) {
           {busy ? "กำลังลงทะเบียน..." : "เริ่มใช้งาน"}
         </button>
       </form>
+
+      <ErrorDialog open={!!error} onOpenChange={(o) => !o && setError("")} message={error} />
     </PageShell>
   );
 }
@@ -89,12 +87,10 @@ export default function AssignPage() {
 
   const reset = () => {
     setDigits("");
-    setError("");
   };
 
   const handleSubmit = async () => {
     if (!digits || lookingUp) return;
-    setError("");
     setLookingUp(true);
     try {
       const student = await getStudent(digits);
@@ -102,6 +98,7 @@ export default function AssignPage() {
       setDialogOpen(true);
     } catch (err) {
       setError(err instanceof ApiError && err.status === 404 ? "ไม่พบรหัสนักเรียนนี้" : err.message || "ค้นหาไม่สำเร็จ");
+      reset();
     } finally {
       setLookingUp(false);
     }
@@ -116,8 +113,8 @@ export default function AssignPage() {
       reset();
       setFlash(`มอบหมายแล้ว • Group ${colorGroupLetter(result.colorGroup)} (ม.${result.grade}) เหลือ ${result.remaining} คน`);
     } catch (err) {
-      setError(err.message || "มอบหมายไม่สำเร็จ");
       setDialogOpen(false);
+      setError(err.message || "มอบหมายไม่สำเร็จ");
     } finally {
       setConfirming(false);
     }
@@ -130,15 +127,7 @@ export default function AssignPage() {
 
   return (
     <PageShell>
-      <div className="w-full flex flex-col items-center">
-        <Link
-          to="/"
-          className="absolute left-4 top-4 md:left-6 md:top-6 flex items-center gap-1 text-black/40 hover:text-black/70 font-semibold text-sm"
-        >
-          <IconArrowLeft size={18} />
-          กลับ
-        </Link>
-
+      <div className="animate-fade-in-up w-full flex flex-col items-center">
         <span className="text-xs font-bold tracking-wide text-black/40 mb-1">{device.name}</span>
         <h1 className="text-3xl md:text-4xl font-extrabold mb-6">Group {groupLetter}</h1>
 
@@ -151,13 +140,7 @@ export default function AssignPage() {
         />
 
         <div className="h-8 mt-3 flex items-center justify-center text-center">
-          {error && (
-            <div className="flex items-center gap-1.5 text-sm font-semibold" style={{ color: "var(--color-brand-red-dark)" }}>
-              <IconAlertTriangle size={16} />
-              {error}
-            </div>
-          )}
-          {!error && flash && <div className="text-sm font-semibold text-black/60">{flash}</div>}
+          {flash && <div className="animate-pop-in text-sm font-semibold text-black/60">{flash}</div>}
         </div>
       </div>
 
@@ -170,6 +153,8 @@ export default function AssignPage() {
         onCancel={handleCancel}
         confirming={confirming}
       />
+
+      <ErrorDialog open={!!error} onOpenChange={(o) => !o && setError("")} message={error} />
     </PageShell>
   );
 }

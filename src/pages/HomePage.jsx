@@ -29,7 +29,7 @@ function NavCard({ to, icon, title, desc }) {
 export default function HomePage() {
   return (
     <PageShell>
-      <div className="w-full max-w-lg">
+      <div className="animate-fade-in-up w-full max-w-lg">
         <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-1">Color Guard MorChor</h1>
         <p className="text-center text-black/50 mb-8">เลือกหน้าที่ต้องการเปิด</p>
 

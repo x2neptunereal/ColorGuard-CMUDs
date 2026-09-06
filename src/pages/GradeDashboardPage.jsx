@@ -19,25 +19,25 @@ export default function GradeDashboardPage({ grade }) {
 
   return (
     <div className="dotted-bg min-h-screen w-full flex flex-col p-6 md:p-10">
-      <div className="flex items-center justify-center gap-3 mb-8 md:mb-12 relative">
+      <div className="animate-fade-in-up flex items-center justify-center gap-3 mb-8 md:mb-12 relative">
         <h1 className="text-3xl md:text-5xl font-extrabold text-center">
           จำนวนคนที่เหลือ (ม.{grade})
         </h1>
         <span
-          className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full"
+          className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full transition-colors duration-300"
           style={{ backgroundColor: connected ? "var(--color-brand-green)" : "var(--color-brand-red)" }}
           title={connected ? "เชื่อมต่อแล้ว" : "ขาดการเชื่อมต่อ"}
         />
       </div>
 
-      <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+      <div className="animate-fade-in-up flex-1 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
         {(colors.length ? colors : Array.from({ length: 4 })).map((c, i) => {
           const letter = c ? colorGroupLetter(c.colorGroup) : "ABCD"[i];
           return (
             <div key={letter} className="flex flex-col items-center">
               <div className="font-bold text-xl md:text-3xl mb-3 md:mb-5">Group {letter}</div>
               <div className="w-full flex-1 bg-white rounded-3xl border border-black/5 shadow-sm flex items-center justify-center min-h-[40vh]">
-                <span className="text-7xl md:text-9xl font-extrabold tabular">
+                <span key={c ? c.remaining : "–"} className="animate-pop-in text-7xl md:text-9xl font-extrabold tabular">
                   {c ? c.remaining : "–"}
                 </span>
               </div>

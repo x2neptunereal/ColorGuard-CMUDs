@@ -21,12 +21,12 @@ Then open the printed local URL — `/assign` on the iPad, `/m1`–`/m4` on the 
 
 This talks to a real backend (see `src/lib/api.js`):
 
-- `GET /api/devices/register?name=...` — registers this device once (its `id` + `colorGroup` are cached in `localStorage`)
+- `POST /api/devices/register?name=...` — registers this device once (its `id` + `colorGroup` are cached in `localStorage`)
 - `GET /api/students/:id` — looks up a student by ID (6 digits)
 - `POST /api/color/assign` — body `{ studentId, deviceId }`, checks the student into this device's color group
 - `GET /api/color/m{grade}/live/events` — Server-Sent Events stream of `{ grade, totalStudents, colors: [{ colorGroup, capacity, assigned, remaining }] }`, used by `/m1`–`/m4`
 
-The base URL defaults to a temporary `pinggy.net` dev tunnel in `src/lib/api.js` — copy `.env.example` to `.env` and set `VITE_API_BASE_URL` once the backend has a stable address (that tunnel URL will expire).
+The base URL defaults to the page's own origin (`window.location.origin`) — meant for the frontend being served from the same host as the backend (e.g. the backend itself serves the built `dist/`, or a reverse proxy fronts both). For local dev, where `npm run dev` serves the frontend from `localhost:5173` and that's *not* the backend, copy `.env.example` to `.env` and set `VITE_API_BASE_URL` to wherever the backend actually is (a pinggy tunnel URL, `http://localhost:8080`, etc).
 
 If a device's registration is ever wrong, clear it with `localStorage.removeItem("cgmc_device_v1")` in the browser console (or clear site data) — it'll register again on next load.
 
@@ -34,10 +34,6 @@ If a device's registration is ever wrong, clear it with `localStorage.removeItem
 
 - Free pinggy tunnels show an HTML "Caution" interstitial to any request that looks like a plain browser visit — every request sends `X-Pinggy-No-Screen: true` to skip it. Harmless to keep once you're off pinggy.
 - The live SSE stream sends its payload as a **named** event (`event:capacity`), not a default `message` event, so it can't be read with the native `EventSource.onmessage`. `subscribeColorLive` instead reads the stream manually via `fetch` + a small line parser (this also sidesteps `EventSource`'s inability to send the header above).
-
-### Known backend issue (as of testing)
-
-`GET /api/devices/register` consistently returned `500 Internal Server Error` in testing, regardless of the `name` sent — this is server-side, not something the client can work around. `GET /api/students/:id` and the `/live/events` SSE stream both worked correctly. Worth checking the backend's logs for that endpoint before relying on `/assign`.
 
 ## Stack
 
