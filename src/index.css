@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "LINE Seed Sans TH";
+  src: url("/fonts/LINESeedSansTH_Th.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LINE Seed Sans TH";
+  src: url("/fonts/LINESeedSansTH_Rg.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LINE Seed Sans TH";
+  src: url("/fonts/LINESeedSansTH_Bd.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "LINE Seed Sans TH";
+  src: url("/fonts/LINESeedSansTH_XBd.ttf") format("truetype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "LINE Seed Sans TH", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-red: #ff6b6b;
+  --color-brand-red-dark: #f14545;
+  --color-brand-green: #7ed957;
+  --color-brand-green-dark: #5cbf37;
+  --color-groupA: #ff6b6b;
+  --color-groupB: #4dabf7;
+  --color-groupC: #ffd43b;
+  --color-groupD: #7ed957;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fafafa;
+  color: #111111;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.dotted-bg {
+  background-color: #fafafa;
+  background-image: radial-gradient(#e2e2e2 1.5px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+
+/* nicer numeric tabular figures for counters */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+button {
+  font-family: inherit;
+}
