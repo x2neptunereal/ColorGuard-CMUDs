@@ -99,7 +99,8 @@ export default function HomePage() {
   return (
     <PageShell>
       <div className="animate-fade-in-up w-full max-w-lg">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-1">Color Guard MorChor</h1>
+        <h1 className="text-4xl md:text-6xl font-extrabold text-center mb-1">Color Guard</h1>
+        <h1 className="text-1xl md:text-2xl font-extrabold text-center mb-1">CMUDs 2026 - Demon55</h1>
         <p className="text-center text-black/50 mb-8">เลือกหน้าที่ต้องการเปิด</p>
 
         <div className="relative mb-3">
