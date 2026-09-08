@@ -13,7 +13,6 @@ function WheelColumn({ count, value, onChange, label }) {
   const timeoutRef = useRef(null);
   const isProgrammatic = useRef(false);
 
-  // scroll to the given value (index) whenever it changes from outside
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
@@ -25,7 +24,6 @@ function WheelColumn({ count, value, onChange, label }) {
         isProgrammatic.current = false;
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const commitFromScroll = useCallback(() => {
@@ -59,7 +57,6 @@ function WheelColumn({ count, value, onChange, label }) {
         className="relative"
         style={{ height: ITEM_HEIGHT * VISIBLE_ROWS, width: 84 }}
       >
-        {/* selection highlight bar */}
         <div
           className="pointer-events-none absolute left-0 right-0 rounded-2xl bg-black/5"
           style={{ top: ITEM_HEIGHT * PAD_ROWS, height: ITEM_HEIGHT }}
@@ -107,7 +104,6 @@ function WheelColumn({ count, value, onChange, label }) {
   );
 }
 
-/** White, 24-hour scroll-snap wheel time picker (hour + minute columns). */
 export default function WheelPicker({ hour, minute, onChangeHour, onChangeMinute }) {
   return (
     <div className="flex items-center justify-center gap-3 rounded-3xl bg-white border border-black/5 shadow-sm px-8 py-6">

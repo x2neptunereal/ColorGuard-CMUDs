@@ -6,8 +6,6 @@ function pad2(n) {
   return String(n).padStart(2, "0");
 }
 
-/** Next Date matching the given 24h hour/minute — today if still in the
- * future, otherwise tomorrow. */
 function computeTarget(hour, minute) {
   const target = new Date();
   target.setHours(hour, minute, 0, 0);

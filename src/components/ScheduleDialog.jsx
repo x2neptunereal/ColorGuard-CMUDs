@@ -6,11 +6,6 @@ import WheelPicker from "./WheelPicker.jsx";
 
 const popSpring = { type: "spring", stiffness: 420, damping: 32, mass: 0.9 };
 
-/**
- * Asks whether to open the monitor now or count down to a chosen 24-hour
- * time. "No" = go now (onGoNow). "Yes" = start countdown with the picked
- * hour/minute (onSchedule(hour, minute)).
- */
 export default function ScheduleDialog({ open, onOpenChange, grade, onGoNow, onSchedule }) {
   const now = new Date();
   const [hour, setHour] = useState(now.getHours());

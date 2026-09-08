@@ -29,10 +29,6 @@ export default function StudentConfirmDialog({ open, onOpenChange, group, studen
               />
             </Dialog.Overlay>
 
-            {/* Position is entirely owned by this flex wrapper — the card
-                itself never moves, so only opacity/scale animate on it.
-                That's what keeps the pop anchored dead-center instead of
-                visually originating from a corner. */}
             <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
               <Dialog.Content asChild forceMount onOpenAutoFocus={(e) => e.preventDefault()}>
                 <motion.div

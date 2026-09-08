@@ -61,12 +61,10 @@ body {
   background-size: 22px 22px;
 }
 
-/* nicer numeric tabular figures for counters */
 .tabular {
   font-variant-numeric: tabular-nums;
 }
 
-/* hides the native scrollbar on the wheel time picker columns */
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -78,11 +76,6 @@ body {
 button {
   font-family: inherit;
 }
-
-/* ---- animations ----
- * Dialogs (StudentConfirmDialog, ErrorDialog) animate via framer-motion
- * (real spring physics) rather than CSS keyframes now — see those files.
- * These are the lighter-weight, one-shot page/element animations. */
 
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(8px); }
