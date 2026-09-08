@@ -5,7 +5,7 @@ import Keypad from "../components/Keypad.jsx";
 import StudentConfirmDialog from "../components/StudentConfirmDialog.jsx";
 import ErrorDialog from "../components/ErrorDialog.jsx";
 import { getStoredDevice, storeDevice } from "../lib/device.js";
-import { registerDevice, getStudent, assignColor, colorGroupLetter, ApiError } from "../lib/api.js";
+import { registerDevice, getStudent, assignColor, colorGroupLetter, ApiError, heartbeatDevice } from "../lib/api.js";
 
 function DeviceSetup({ onRegistered }) {
   const [name, setName] = useState("");
@@ -79,6 +79,23 @@ export default function AssignPage() {
     return () => clearTimeout(t);
   }, [flash]);
 
+  useEffect(() => {
+    const storedDevice = getStoredDevice();
+    if (!storedDevice) return;
+
+    const heartbeat = async () => {
+      try {
+        await heartbeatDevice(storedDevice.id);
+      } catch (err) {
+        if (err instanceof ApiError && err.status === 404) {
+          setDevice(null);
+        }
+      }
+    };
+
+    heartbeat();
+  }, []);
+
   if (!device) {
     return <DeviceSetup onRegistered={setDevice} />;
   }
@@ -140,7 +157,7 @@ export default function AssignPage() {
         />
 
         <div className="h-8 mt-3 flex items-center justify-center text-center">
-          {flash && <div className="animate-pop-in text-sm font-semibold text-black/60">{flash}</div>}
+          {/* {flash && <div className="animate-pop-in text-sm font-semibold text-black/60">{flash}</div>} */}
         </div>
       </div>
 

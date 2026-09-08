@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { IconDeviceIpad, IconDeviceDesktop, IconChevronRight } from "@tabler/icons-react";
 import PageShell from "../components/PageShell.jsx";
 
-const GRADE_LINKS = [1, 2, 3, 4].map((g) => ({
+const GRADE_LINKS = [1, 2, 3, 4, 6].map((g) => ({
   to: `/m${g}`,
   label: `ม.${g}`,
   desc: `หน้าจอแสดงจำนวนคนที่เหลือ ม.${g}`,
@@ -30,7 +30,7 @@ export default function HomePage() {
   return (
     <PageShell>
       <div className="animate-fade-in-up w-full max-w-lg">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-1">Color Guard MorChor</h1>
+        <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-1">Color Guard</h1>
         <p className="text-center text-black/50 mb-8">เลือกหน้าที่ต้องการเปิด</p>
 
         <div className="space-y-3">

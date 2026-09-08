@@ -52,6 +52,28 @@ export async function registerDevice(name) {
   }
 }
 
+export async function getStoredDevice() {
+  const json = localStorage.getItem("device");
+  if (!json) return null;
+  try {
+    const { data } = await client.get(`/api/devices/${encodeURIComponent(JSON.parse(json).id)}`);
+    return data;
+  }
+  catch (err) {
+    console.error("Failed to parse stored device:", err);
+    return null;
+  }
+}
+
+export async function heartbeatDevice(deviceId) {
+  try {
+    const { data } = await client.post(`/api/devices/${encodeURIComponent(deviceId)}/heartbeat`);
+    return data;
+  } catch (err) {
+    throw toApiError(err);
+  }
+}
+
 /** Looks up a student by their student ID. Returns { studentId, name, classRoom, studentNumber }. */
 export async function getStudent(studentId) {
   try {

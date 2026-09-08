@@ -17,6 +17,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/m2" element={<GradeDashboardPage grade={2} />} />
         <Route path="/m3" element={<GradeDashboardPage grade={3} />} />
         <Route path="/m4" element={<GradeDashboardPage grade={4} />} />
+        <Route path="/m6" element={<GradeDashboardPage grade={6} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
