@@ -52,22 +52,15 @@ export async function registerDevice(name) {
   }
 }
 
-export async function getStoredDevice() {
-  const json = localStorage.getItem("device");
-  if (!json) return null;
-  try {
-    const { data } = await client.get(`/api/devices/${encodeURIComponent(JSON.parse(json).id)}`);
-    return data;
-  }
-  catch (err) {
-    console.error("Failed to parse stored device:", err);
-    return null;
-  }
-}
-
+/**
+ * Pings the backend to confirm this device still exists there (used on
+ * AssignPage mount to detect a device that was removed server-side —
+ * getStudent-style ApiError with status 404 tells the caller to reset
+ * local device state and show DeviceSetup again).
+ */
 export async function heartbeatDevice(deviceId) {
   try {
-    const { data } = await client.post(`/api/devices/${encodeURIComponent(deviceId)}/heartbeat`);
+    const { data } = await client.get(`/api/devices/${encodeURIComponent(deviceId)}`);
     return data;
   } catch (err) {
     throw toApiError(err);
@@ -80,6 +73,23 @@ export async function getStudent(studentId) {
     const { data } = await client.get(`/api/students/${encodeURIComponent(studentId)}`);
     return data;
   } catch (err) {
+    throw toApiError(err);
+  }
+}
+
+/**
+ * Searches students by name or student ID. Returns an array of
+ * { studentId, title, name, lastName, grade, classroom, studentNumber, id }.
+ */
+export async function searchStudents(query, { signal } = {}) {
+  try {
+    const { data } = await client.get(`/api/students`, {
+      params: { query },
+      signal,
+    });
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    if (axios.isCancel(err)) throw err;
     throw toApiError(err);
   }
 }

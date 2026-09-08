@@ -6,6 +6,7 @@ import "./index.css";
 import HomePage from "./pages/HomePage.jsx";
 import AssignPage from "./pages/AssignPage.jsx";
 import GradeDashboardPage from "./pages/GradeDashboardPage.jsx";
+import CountdownPage from "./pages/CountdownPage.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -17,7 +18,10 @@ createRoot(document.getElementById("root")).render(
         <Route path="/m2" element={<GradeDashboardPage grade={2} />} />
         <Route path="/m3" element={<GradeDashboardPage grade={3} />} />
         <Route path="/m4" element={<GradeDashboardPage grade={4} />} />
-        <Route path="/m6" element={<GradeDashboardPage grade={6} />} />
+        <Route path="/m1/countdown" element={<CountdownPage grade={1} />} />
+        <Route path="/m2/countdown" element={<CountdownPage grade={2} />} />
+        <Route path="/m3/countdown" element={<CountdownPage grade={3} />} />
+        <Route path="/m4/countdown" element={<CountdownPage grade={4} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

@@ -66,6 +66,15 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* hides the native scrollbar on the wheel time picker columns */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 button {
   font-family: inherit;
 }
